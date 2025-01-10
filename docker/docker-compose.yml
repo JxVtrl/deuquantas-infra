@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   backend:
     build:
@@ -19,6 +21,26 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+
+  frontend-web:
+    build:
+      context: ../../frontend-web
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    environment:
+      REACT_APP_BACKEND_URL: "http://localhost:8000"
+
+  frontend-mobile:
+    build:
+      context: ../../frontend-mobile
+    ports:
+      - "4000:80"
+    depends_on:
+      - backend
+    environment:
+      API_URL: "http://localhost:8000"
 
 volumes:
   db_data:
