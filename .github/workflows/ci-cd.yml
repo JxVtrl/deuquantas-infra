@@ -1,0 +1,66 @@
+name: Frontend Mobile CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Tests
+        run: npm test
+
+  build-apk:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install Expo CLI
+        run: npm install -g expo-cli
+
+      - name: Build APK
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          expo login --token $EXPO_TOKEN
+          expo build:android --non-interactive
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-apk
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Upload Build to Firebase
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          firebase appdistribution:distribute ./path-to-apk.apk \
+            --app <YOUR_FIREBASE_APP_ID>

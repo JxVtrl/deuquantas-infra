@@ -1,0 +1,10 @@
+# Ignorar arquivos da pasta .terraform
+.terraform/
+.terraform.lock.hcl
+
+# Ignorar arquivos de estado do Terraform
+terraform.tfstate
+terraform.tfstate.backup
+
+# Ignorar arquivos de log
+crash.log
