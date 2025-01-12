@@ -28,6 +28,7 @@ services:
     depends_on:
       - backend
     environment:
+      NEXT_PUBLIC_DOCKER_ENV: true
       REACT_APP_BACKEND_URL: "http://localhost:8000"
 
   frontend-mobile:
