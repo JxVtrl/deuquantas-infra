@@ -23,13 +23,21 @@ services:
   frontend-web:
     build:
       context: ../../frontend-web
+      #dockerfile: ${DOCKERFILE:-Dockerfile.dev} # Uncomment this line if you want to use the .env file
+      dockerfile: Dockerfile.dev
     ports:
-      - "3000:80"
+    # - "${EXPOSE_PORT}:${EXPOSE_PORT}" # Uncomment this line if you want to expose the port using the .env file
+      - "3000:3000"
     depends_on:
       - backend
     environment:
+      PORT: 3000
       NEXT_PUBLIC_DOCKER_ENV: true
       REACT_APP_BACKEND_URL: "http://localhost:8000"
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - ../../frontend-web:/app
+      - /app/node_modules
 
   frontend-mobile:
     build:
