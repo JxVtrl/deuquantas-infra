@@ -1,16 +1,24 @@
+version: "3.8"
+
 services:
   backend:
     build:
       context: ../../backend
+    container_name: deuquantas-backend
+    restart: always
     ports:
-      - "8000:8000"
+      - "3000:3000"
     environment:
       DATABASE_URL: "postgres://user:password@db:5432/deuquantas"
+      JWT_SECRET: "chave-super-secreta"
+      NODE_ENV: "development"
     depends_on:
       - db
 
   db:
     image: postgres:13-alpine
+    container_name: deuquantas-db
+    restart: always
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
@@ -23,17 +31,17 @@ services:
   frontend-web:
     build:
       context: ../../frontend-web
-      #dockerfile: ${DOCKERFILE:-Dockerfile.dev} # Uncomment this line if you want to use the .env file
       dockerfile: Dockerfile.dev
+    container_name: deuquantas-frontend-web
+    restart: always
     ports:
-    # - "${EXPOSE_PORT}:${EXPOSE_PORT}" # Uncomment this line if you want to expose the port using the .env file
-      - "3000:3000"
+      - "3001:3000"  # Alterado para evitar conflito com backend na porta 3000
     depends_on:
       - backend
     environment:
       PORT: 3000
       NEXT_PUBLIC_DOCKER_ENV: true
-      REACT_APP_BACKEND_URL: "http://localhost:8000"
+      REACT_APP_BACKEND_URL: "http://backend:3000"
       CHOKIDAR_USEPOLLING: "true"
     volumes:
       - ../../frontend-web:/app
@@ -42,12 +50,14 @@ services:
   frontend-mobile:
     build:
       context: ../../frontend-mobile
+    container_name: deuquantas-frontend-mobile
+    restart: always
     ports:
       - "4000:80"
     depends_on:
       - backend
     environment:
-      API_URL: "http://localhost:8000"
+      API_URL: "http://backend:3000"
 
 volumes:
   db_data:
