@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3000
 
 # Inicia o backend
-CMD ["npm", "run", "prod"]
+CMD ["npm", "run", "start:prod"]
