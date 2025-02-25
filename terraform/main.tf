@@ -56,6 +56,15 @@ resource "aws_instance" "deuquantas_backend" {
   tags = {
     Name = "deuquantas-backend"
   }
+
+  user_data = <<-EOF
+            #!/bin/bash
+            sudo apt update -y
+            sudo apt install -y docker.io
+            sudo systemctl enable docker
+            sudo systemctl start docker
+            sudo docker run -d -p 3000:3000 meu_usuario/deuquantas-backend:latest
+            EOF
 }
 
 output "public_ip" {

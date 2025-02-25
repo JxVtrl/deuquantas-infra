@@ -1,47 +1,45 @@
 ---
-- name: Configurar Backend
-  hosts: backend
+- name: Configurar Backend Localmente
+  hosts: local
   become: true
 
   tasks:
-    - name: Atualizar pacotes
+    - name: Atualizar pacotes do sistema
       apt:
         update_cache: yes
 
     - name: Instalar dependências do sistema
       apt:
         name:
-          - python3
-          - python3-pip
-          - libpq-dev
+          - docker.io
+          - docker-compose
         state: present
 
-    - name: Instalar dependências do Python
-      pip:
-        name:
-          - flask
-          - psycopg2-binary
-          - gunicorn
-        executable: pip3
+    - name: Garantir que o Docker está rodando
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
 
     - name: Criar diretório da aplicação
       file:
-        path: /var/www/backend
+        path: /var/www/deuquantas-backend
         state: directory
-        owner: ubuntu
-        group: ubuntu
+        owner: "{{ ansible_user_id }}"
+        group: "{{ ansible_user_id }}"
 
-    - name: Copiar arquivos do backend
-      copy:
-        src: ../deuquantas-backend/
-        dest: /var/www/backend/
-        owner: ubuntu
-        group: ubuntu
+    - name: Baixar e rodar o Backend com Docker
+      shell: |
+        docker pull majorssolutions/deuquantas-backend:latest
+        docker stop deuquantas-backend || true
+        docker rm deuquantas-backend || true
+        docker run -d --name deuquantas-backend -p 3000:3000 \
+          -e DATABASE_URL="postgres://user:password@db:5432/deuquantas" \
+          -e JWT_SECRET="chave-super-secreta" \
+          majorssolutions/deuquantas-backend:latest
 
-    - name: Configurar Gunicorn
-      template:
-        src: gunicorn.service.j2
-        dest: /etc/systemd/system/gunicorn.service
-
-    - name: Reiniciar Gunicorn
-      shell: systemctl restart gunicorn
+    - name: Abrir firewall para o backend (se necessário)
+      ufw:
+        rule: allow
+        port: "3000"
+        proto: tcp

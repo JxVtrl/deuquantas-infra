@@ -1,0 +1,37 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches:
+      - master  # Roda sempre que algo for enviado para a branch "main"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚀 Clonar o Repositório
+        uses: actions/checkout@v3
+
+      - name: 🔨 Construir a Imagem Docker
+        run: |
+          docker build -t majorssolutions/deuquantas-backend:latest -f infra/docker/backend/Dockerfile backend/
+
+      - name: 🔑 Login no Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "majorssolutions" --password-stdin
+
+      - name: 📤 Fazer Push da Imagem para o Docker Hub
+        run: docker push majorssolutions/deuquantas-backend:latest
+
+      - name: 🔄 Rodar o Ansible para Atualizar o Backend
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /caminho/do/repositorio/no/servidor
+            ansible-playbook -i inventories/dev/hosts playbooks/setup-backend.yml
+
+      - name: ✅ Finalizado
+        run: echo "Deploy concluído!"
