@@ -29,8 +29,8 @@ services:
 
   frontend-web:
     build:
-      context: ../../frontend-web
-      dockerfile: ./frontend/web/Dockerfile.dev
+      context: ../../
+      dockerfile: infra/docker/frontend/web/Dockerfile.dev
     container_name: deuquantas-frontend-web
     restart: always
     ports:
@@ -48,8 +48,8 @@ services:
 
   frontend-mobile:
     build:
-      context: ../../frontend-mobile
-      dockerfile: ./frontend/mobile/Dockerfile
+      context: ../../
+      dockerfile: infra/docker/frontend/mobile/Dockerfile
     container_name: deuquantas-frontend-mobile
     restart: always
     ports:
