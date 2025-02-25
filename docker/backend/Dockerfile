@@ -1,20 +1,23 @@
-# Usa a imagem oficial do Node.js
+# Usa uma imagem leve do Node.js
 FROM node:18-alpine
 
-# Define o diretório de trabalho dentro do container
+# Define o diretório de trabalho
 WORKDIR /app
 
-# Copia os arquivos do projeto para dentro do container
-COPY package*.json ./
+# Copia apenas os arquivos de dependências primeiro
+COPY ../../backend/package.json ../../backend/package-lock.json ./
 
 # Instala as dependências
 RUN npm install
 
-# Copia o restante do código para dentro do container
-COPY . .
+# Copia o restante do código do backend
+COPY ../../backend .
+
+# Compila o código NestJS
+RUN npm run build
 
 # Expõe a porta do backend
 EXPOSE 3000
 
-# Inicia o backend
+# Comando de inicialização
 CMD ["npm", "run", "start:prod"]

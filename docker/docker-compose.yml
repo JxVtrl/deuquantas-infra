@@ -1,15 +1,14 @@
-version: "3.8"
-
 services:
   backend:
     build:
-      context: ../../backend
+      context: ../../
+      dockerfile: infra/docker/backend/Dockerfile
     container_name: deuquantas-backend
     restart: always
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: "postgres://user:password@db:5432/deuquantas"
+      DATABASE_URL: "postgres://postgres:1029@deuquantas-db:5432/deuquantas"
       JWT_SECRET: "chave-super-secreta"
       NODE_ENV: "development"
     depends_on:
@@ -31,7 +30,7 @@ services:
   frontend-web:
     build:
       context: ../../frontend-web
-      dockerfile: Dockerfile.dev
+      dockerfile: ./frontend/web/Dockerfile.dev
     container_name: deuquantas-frontend-web
     restart: always
     ports:
@@ -50,6 +49,7 @@ services:
   frontend-mobile:
     build:
       context: ../../frontend-mobile
+      dockerfile: ./frontend/mobile/Dockerfile
     container_name: deuquantas-frontend-mobile
     restart: always
     ports:
