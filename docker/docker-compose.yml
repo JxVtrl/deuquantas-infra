@@ -19,8 +19,8 @@ services:
     container_name: deuquantas-db
     restart: always
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1029
       POSTGRES_DB: deuquantas
     ports:
       - "5432:5432"
@@ -46,18 +46,18 @@ services:
       - ../../frontend-web:/app
       - /app/node_modules
 
-  frontend-mobile:
-    build:
-      context: ../../
-      dockerfile: infra/docker/frontend/mobile/Dockerfile
-    container_name: deuquantas-frontend-mobile
-    restart: always
-    ports:
-      - "4000:80"
-    depends_on:
-      - backend
-    environment:
-      API_URL: "http://backend:3000"
+  # frontend-mobile:
+  #   build:
+  #     context: ../../
+  #     dockerfile: infra/docker/frontend/mobile/Dockerfile
+  #   container_name: deuquantas-frontend-mobile
+  #   restart: always
+  #   ports:
+  #     - "4000:80"
+  #   depends_on:
+  #     - backend
+  #   environment:
+  #     API_URL: "http://backend:3000"
 
 volumes:
   db_data:
