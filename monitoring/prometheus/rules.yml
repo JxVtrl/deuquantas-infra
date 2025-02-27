@@ -1,0 +1,24 @@
+groups:
+  - name: BackendAlerts
+    interval: 30s
+    rules:
+      - alert: BackendDown
+        expr: up{job="backend"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "O backend está fora do ar!"
+          description: "O serviço do backend não responde há mais de 1 minuto."
+
+  - name: DatabaseAlerts
+    interval: 30s
+    rules:
+      - alert: HighDatabaseLatency
+        expr: pg_stat_activity{datname="deuquantas_db"} > 100
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Alta latência no banco de dados!"
+          description: "O banco de dados PostgreSQL tem muitas conexões ativas."

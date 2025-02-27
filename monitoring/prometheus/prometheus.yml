@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s # Tempo de coleta das métricas
+  evaluation_interval: 15s # Tempo de avaliação das regras
+
+scrape_configs:
+  - job_name: "backend"
+    static_configs:
+      - targets: ["backend:3000"]  # Altere para a porta onde seu backend expõe métricas
+
+  - job_name: "postgres"
+    static_configs:
+      - targets: ["postgres_exporter:9187"]  # Exporter do PostgreSQL

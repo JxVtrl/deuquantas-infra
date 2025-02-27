@@ -1,0 +1,17 @@
+{
+  "dashboard": {
+    "title": "Monitoramento do Backend",
+    "panels": [
+      {
+        "title": "Backend Status",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "up{job='backend'}",
+            "legendFormat": "Backend Online"
+          }
+        ]
+      }
+    ]
+  }
+}

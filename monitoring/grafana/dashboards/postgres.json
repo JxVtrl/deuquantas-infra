@@ -1,0 +1,17 @@
+{
+  "dashboard": {
+    "title": "Banco de Dados PostgreSQL",
+    "panels": [
+      {
+        "title": "Conexões Ativas",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "pg_stat_activity_count{datname='deuquantas_db'}",
+            "legendFormat": "Conexões Ativas"
+          }
+        ]
+      }
+    ]
+  }
+}
