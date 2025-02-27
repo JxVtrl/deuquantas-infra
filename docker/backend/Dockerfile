@@ -1,8 +1,14 @@
 # Usa uma imagem leve do Node.js
 FROM node:18-alpine
 
+# Instala o OpenSSL para suporte ao crypto
+RUN apk add --no-cache openssl
+
 # Define o diretório de trabalho
 WORKDIR /app
+
+# Instala o cliente do PostgreSQL
+RUN apk add --no-cache postgresql-client
 
 # Copia apenas os arquivos de dependências primeiro
 COPY ../../backend/package.json ../../backend/package-lock.json ./
@@ -19,5 +25,5 @@ RUN npm run build
 # Expõe a porta do backend
 EXPOSE 3000
 
-# Comando de inicialização
-CMD ["npm", "run", "start:prod"]
+# Define o ambiente com a importação do crypto antes de iniciar
+CMD ["node", "-r", "crypto", "dist/main.js"]
