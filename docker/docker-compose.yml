@@ -1,3 +1,4 @@
+version: '3.8'
 services:
   backend:
     build:
@@ -18,6 +19,8 @@ services:
       NODE_ENV: "development"
     depends_on:
       - db
+    networks:
+      - deuquantas
 
   db:
     image: postgres:13-alpine
@@ -31,6 +34,8 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+    networks:
+      - deuquantas
 
   frontend-web:
     build:
@@ -39,7 +44,7 @@ services:
     container_name: deuquantas-frontend-web
     restart: always
     ports:
-      - "3001:3000"  # Alterado para evitar conflito com backend na porta 3000
+      - "3001:3000"
     depends_on:
       - backend
     environment:
@@ -50,19 +55,53 @@ services:
     volumes:
       - ../../frontend-web:/app
       - /app/node_modules
+    networks:
+      - deuquantas
 
-  # frontend-mobile:
-  #   build:
-  #     context: ../../
-  #     dockerfile: infra/docker/frontend/mobile/Dockerfile
-  #   container_name: deuquantas-frontend-mobile
-  #   restart: always
-  #   ports:
-  #     - "4000:80"
-  #   depends_on:
-  #     - backend
-  #   environment:
-  #     API_URL: "http://backend:3000"
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/prometheus/rules.yml:/etc/prometheus/rules.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - backend
+      - db
+    networks:
+      - deuquantas
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    volumes:
+      - ./monitoring/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+    ports:
+      - "3002:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    networks:
+      - deuquantas
+
+  postgres_exporter:
+    image: wrouesnel/postgres_exporter
+    container_name: postgres_exporter
+    environment:
+      DATA_SOURCE_NAME: "postgresql://postgres:1029@db:5432/deuquantas?sslmode=disable"
+    ports:
+      - "9187:9187"
+    depends_on:
+      - db
+    networks:
+      - deuquantas
+
+networks:
+  deuquantas:
+    driver: bridge
 
 volumes:
   db_data:
