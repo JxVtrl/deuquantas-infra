@@ -8,6 +8,11 @@ services:
     ports:
       - "3000:3000"
     environment:
+      DATABASE_HOST: "deuquantas-db"
+      DATABASE_PORT: "5432"
+      DATABASE_USER: "postgres"
+      DATABASE_PASSWORD: "1029"
+      DATABASE_NAME: "deuquantas"
       DATABASE_URL: "postgres://postgres:1029@deuquantas-db:5432/deuquantas"
       JWT_SECRET: "chave-super-secreta"
       NODE_ENV: "development"
