@@ -4,10 +4,15 @@ WORKDIR /app
 
 COPY package*.json ./
 
+# Instala as dependências ANTES de copiar o código-fonte
 RUN npm install --force
 
+# Copia todo o código do projeto
 COPY . .
+
+# Garante que o Next.js esteja disponível
+RUN npx next --version
 
 EXPOSE 3000
 
-CMD ["npm", "run", "dev", "--", "--no-turbo"]
+CMD ["npm", "run", "dev"]
