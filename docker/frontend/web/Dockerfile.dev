@@ -4,13 +4,11 @@ WORKDIR /app
 
 COPY package*.json ./
 
-# Instala as dependências ANTES de copiar o código-fonte
-RUN npm install --force
+# Define permissão para evitar problemas com usuários diferentes
+RUN npm install --force && chmod -R 777 /app/node_modules
 
-# Copia todo o código do projeto
 COPY . .
 
-# Garante que o Next.js esteja disponível
 RUN npx next --version
 
 EXPOSE 3000
