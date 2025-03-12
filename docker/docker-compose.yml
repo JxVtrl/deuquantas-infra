@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   backend:
     build:
@@ -9,12 +9,12 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_HOST: "deuquantas-db"
+      DATABASE_HOST: "db"
       DATABASE_PORT: "5432"
       DATABASE_USER: "postgres"
-      DATABASE_PASSWORD: "1029"
+      DATABASE_PASSWORD: "password"
       DATABASE_NAME: "deuquantas"
-      DATABASE_URL: "postgres://postgres:1029@deuquantas-db:5432/deuquantas"
+      DATABASE_URL: "postgresql://postgres:password@db:5432/deuquantas"
       JWT_SECRET: "chave-super-secreta"
       NODE_ENV: "development"
     depends_on:
@@ -28,7 +28,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1029
+      POSTGRES_PASSWORD: password
       POSTGRES_DB: deuquantas
     ports:
       - "5432:5432"
@@ -54,7 +54,7 @@ services:
     volumes:
       - ../../frontend-web:/app
       - /app/node_modules # Garante que os node_modules sejam mantidos
-      - /app/.next  # Evita sobrescrever o build do Next.js
+      - /app/.next # Evita sobrescrever o build do Next.js
     networks:
       - deuquantas
 
@@ -91,7 +91,9 @@ services:
     image: wrouesnel/postgres_exporter
     container_name: postgres_exporter
     environment:
-      DATA_SOURCE_NAME: "postgresql://postgres:1029@db:5432/deuquantas?sslmode=disable"
+      DATA_SOURCE_URI: "postgresql://postgres:password@db:5432/deuquantas?sslmode=disable"
+      DATA_SOURCE_USER: "postgres"
+      DATA_SOURCE_PASS: "password"
     ports:
       - "9187:9187"
     depends_on:

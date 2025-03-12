@@ -1,5 +1,5 @@
 # Usa uma imagem leve do Node.js
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Instala o OpenSSL para suporte ao crypto
 RUN apk add --no-cache openssl
