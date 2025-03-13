@@ -23,7 +23,7 @@ services:
       - deuquantas
 
   db:
-    image: postgres:13-alpine
+    image: postgis/postgis:13-3.1-alpine
     container_name: deuquantas-db
     restart: always
     environment:
