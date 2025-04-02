@@ -23,7 +23,7 @@ COPY ../../backend .
 RUN npm run build
 
 # Expõe a porta do backend
-EXPOSE 3000
+EXPOSE 3001
 
 # Define o ambiente com a importação do crypto antes de iniciar
 CMD ["node", "-r", "crypto", "dist/main.js"]

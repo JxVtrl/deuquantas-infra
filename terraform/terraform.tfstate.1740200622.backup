@@ -157,7 +157,7 @@
             "load_balancing_cross_zone_enabled": "use_load_balancer_configuration",
             "name": "deuquantas-tg",
             "name_prefix": "",
-            "port": 3000,
+            "port": 3001,
             "preserve_client_ip": null,
             "protocol": "HTTP",
             "protocol_version": "HTTP1",
@@ -242,13 +242,13 @@
                   "0.0.0.0/0"
                 ],
                 "description": "",
-                "from_port": 3000,
+                "from_port": 3001,
                 "ipv6_cidr_blocks": [],
                 "prefix_list_ids": [],
                 "protocol": "tcp",
                 "security_groups": [],
                 "self": false,
-                "to_port": 3000
+                "to_port": 3001
               },
               {
                 "cidr_blocks": [

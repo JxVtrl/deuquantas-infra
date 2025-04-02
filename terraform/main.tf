@@ -23,10 +23,10 @@ resource "aws_security_group" "deuquantas_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Permitir tráfego para o backend (porta 3000)
+  # Permitir tráfego para o backend (porta 3001)
   ingress {
-    from_port   = 3000
-    to_port     = 3000
+    from_port   = 3001
+    to_port     = 3001
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -63,7 +63,7 @@ resource "aws_instance" "deuquantas_backend" {
             sudo apt install -y docker.io
             sudo systemctl enable docker
             sudo systemctl start docker
-            sudo docker run -d -p 3000:3000 meu_usuario/deuquantas-backend:latest
+            sudo docker run -d -p 3001:3001 meu_usuario/deuquantas-backend:latest
             EOF
 }
 
