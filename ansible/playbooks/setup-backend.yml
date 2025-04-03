@@ -34,7 +34,7 @@
         docker stop deuquantas-backend || true
         docker rm deuquantas-backend || true
         docker run -d --name deuquantas-backend -p 3001:3001 \
-          -e DATABASE_URL="postgresql://postgres:password@db:5432/deuquantas" \
+          -e DATABASE_URL="postgresql://postgres:password@localhost:5432/deuquantas" \
           -e JWT_SECRET="chave-super-secreta" \
           majorssolutions/deuquantas-backend:latest
 
