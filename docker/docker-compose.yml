@@ -58,34 +58,34 @@ services:
     networks:
       - deuquantas
 
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
-    volumes:
-      - ../monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ../monitoring/prometheus/rules.yml:/etc/prometheus/rules.yml
-    ports:
-      - "9090:9090"
-    depends_on:
-      - backend
-      - db
-    networks:
-      - deuquantas
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   container_name: prometheus
+  #   volumes:
+  #     - ../monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - ../monitoring/prometheus/rules.yml:/etc/prometheus/rules.yml
+  #   ports:
+  #     - "9090:9090"
+  #   depends_on:
+  #     - backend
+  #     - db
+  #   networks:
+  #     - deuquantas
 
-  grafana:
-    image: grafana/grafana:latest
-    container_name: grafana
-    volumes:
-      - ../monitoring/grafana/grafana.ini:/etc/grafana/grafana.ini
-      - ../monitoring/grafana/dashboards:/var/lib/grafana/dashboards
-    ports:
-      - "3002:3000"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    depends_on:
-      - prometheus
-    networks:
-      - deuquantas
+  # grafana:
+    # image: grafana/grafana:latest
+    # container_name: grafana
+    # volumes:
+    #   - ../monitoring/grafana/grafana.ini:/etc/grafana/grafana.ini
+    #   - ../monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+    # ports:
+    #   - "3002:3000"
+    # environment:
+    #   - GF_SECURITY_ADMIN_PASSWORD=admin
+    # depends_on:
+    #   - prometheus
+    # networks:
+    #   - deuquantas
 
   postgres_exporter:
     image: wrouesnel/postgres_exporter
