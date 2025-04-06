@@ -3,7 +3,7 @@ DO $$
 DECLARE
     i INTEGER;
     usuario_id UUID;
-    senha_hash TEXT := '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy'; -- hash da senha '123456'
+    senha_hash TEXT := '$2b$10$xVh3M0mgLVnNWYFqWghEu.vEo6QC.2r4pUAZOYAWy8WYqrbDe1uOi'; -- hash da senha 'Teste@123'
 BEGIN
     -- Criar 10 clientes
     FOR i IN 1..10 LOOP
