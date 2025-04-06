@@ -114,15 +114,15 @@ services:
   #   networks:
   #     - deuquantas
 
-  # adminer:
-  #   image: adminer
-  #   container_name: deuquantas-adminer
-  #   ports:
-  #     - "8080:8080"
-  #   depends_on:
-  #     - db
-  #   networks:
-  #     - deuquantas
+  adminer:
+    image: adminer
+    container_name: deuquantas-adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - deuquantas
 
 networks:
   deuquantas:
