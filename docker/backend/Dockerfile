@@ -4,9 +4,6 @@ FROM node:20-alpine
 # Instala o OpenSSL para suporte ao crypto
 RUN apk add --no-cache openssl
 
-# Instala dependências para compilar o bcrypt
-RUN apk add --no-cache python3 make g++
-
 # Define o diretório de trabalho
 WORKDIR /app
 
@@ -16,14 +13,8 @@ RUN apk add --no-cache postgresql-client
 # Copia apenas os arquivos de dependências primeiro
 COPY ../../backend/package.json ../../backend/package-lock.json ./
 
-# Instala as dependências incluindo o bcrypt
-RUN npm install bcrypt --build-from-source
-
-# Instala o restante das dependências
+# Instala as dependências
 RUN npm install
-
-# Remove as dependências de compilação após a instalação
-RUN apk del python3 make g++
 
 # Copia o restante do código do backend
 COPY ../../backend .
