@@ -20,26 +20,34 @@ services:
       JWT_SECRET: "chave-super-secreta"
       NODE_ENV: "development"
       PORT: "3001"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - db
     networks:
       - deuquantas
 
-  # frontend:
-  #   build:
-  #     context: ../../
-  #     dockerfile: frontend-web/Dockerfile
-  #   container_name: deuquantas-frontend
-  #   restart: always
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     NEXT_PUBLIC_API_URL: "http://localhost:3001"
-  #     NEXT_PUBLIC_SOCKET_URL: "http://localhost:3002"
-  #   depends_on:
-  #     - backend
-  #   networks:
-  #     - deuquantas
+  frontend:
+    build:
+      context: ../../
+      dockerfile: frontend-web/Dockerfile
+      target: development
+    container_name: deuquantas-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: "http://localhost:3001"
+      NEXT_PUBLIC_SOCKET_URL: "http://localhost:3002"
+      NODE_ENV: "development"
+    volumes:
+      - ../../frontend-web:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend
+    networks:
+      - deuquantas
 
   db:
     image: postgres:17-alpine
