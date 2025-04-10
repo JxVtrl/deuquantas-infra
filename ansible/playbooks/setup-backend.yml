@@ -33,7 +33,7 @@
         docker pull majorssolutions/deuquantas-backend:latest
         docker stop deuquantas-backend || true
         docker rm deuquantas-backend || true
-        docker run -d --name deuquantas-backend -p 3001:3001 \
+        docker run -d --name deuquantas-backend -p 3010:3010 \
           -e DATABASE_URL="postgresql://postgres:password@localhost:5432/deuquantas" \
           -e JWT_SECRET="chave-super-secreta" \
           majorssolutions/deuquantas-backend:latest
@@ -41,5 +41,5 @@
     - name: Abrir firewall para o backend (se necessário)
       ufw:
         rule: allow
-        port: "3001"
+        port: "3010"
         proto: tcp

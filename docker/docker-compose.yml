@@ -8,8 +8,8 @@ services:
     container_name: deuquantas-backend
     restart: always
     ports:
-      - "3001:3001"
-      - "3002:3002"
+      - "3010:3010"
+      - "3011:3011"
     environment:
       DATABASE_HOST: "db"
       DATABASE_PORT: "5432"
@@ -19,7 +19,7 @@ services:
       DATABASE_URL: "postgresql://postgres:password@db:5432/deuquantas"
       JWT_SECRET: "chave-super-secreta"
       NODE_ENV: "development"
-      PORT: "3001"
+      PORT: "3010"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
@@ -30,18 +30,18 @@ services:
   # frontend:
   #   build:
   #     context: ../../
-  #     dockerfile: frontend-web/Dockerfile
+  #     dockerfile: frontend-web-client/Dockerfile
   #     target: development
-  #   container_name: deuquantas-frontend
+  #   container_name: deuquantas-frontend-client
   #   restart: always
   #   ports:
   #     - "3000:3000"
   #   environment:
-  #     NEXT_PUBLIC_API_URL: "http://localhost:3001"
-  #     NEXT_PUBLIC_SOCKET_URL: "http://localhost:3002"
+  #     NEXT_PUBLIC_API_URL: "http://localhost:3010"
+  #     NEXT_PUBLIC_SOCKET_URL: "http://localhost:3011"
   #     NODE_ENV: "development"
   #   volumes:
-  #     - ../../frontend-web:/app
+  #     - ../../frontend-web-client:/app
   #     - /app/node_modules
   #     - /app/.next
   #   depends_on:
@@ -59,8 +59,8 @@ services:
   #   ports:
   #     - "3003:3003"
   #   environment:
-  #     NEXT_PUBLIC_API_URL: "http://localhost:3001"
-  #     NEXT_PUBLIC_SOCKET_URL: "http://localhost:3002"
+  #     NEXT_PUBLIC_API_URL: "http://localhost:3010"
+  #     NEXT_PUBLIC_SOCKET_URL: "http://localhost:3011"
   #     NODE_ENV: "development"
   #   volumes:
   #     - ../../frontend-web-establishment:/app

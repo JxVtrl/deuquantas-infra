@@ -5,7 +5,7 @@ global:
 scrape_configs:
   - job_name: "backend"
     static_configs:
-      - targets: ["backend:3001"]  # Altere para a porta onde seu backend expõe métricas
+      - targets: ["backend:3010"]  # Altere para a porta onde seu backend expõe métricas
 
   - job_name: "postgres"
     static_configs:
