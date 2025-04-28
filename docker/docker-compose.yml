@@ -6,7 +6,7 @@ services:
     container_name: deuquantas-backend
     restart: always
     ports:
-      - "8080:8080"
+      - "3010:3010"
       - "3011:3011"
     environment:
       DATABASE_HOST: "db"
@@ -17,7 +17,7 @@ services:
       DATABASE_URL: "postgresql://postgres:password@db:5432/deuquantas"
       JWT_SECRET: "chave-super-secreta"
       NODE_ENV: "development"
-      PORT: "8080"
+      PORT: "3010"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
