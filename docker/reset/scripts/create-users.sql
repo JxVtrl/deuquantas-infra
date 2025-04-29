@@ -80,4 +80,72 @@ BEGIN
             usuario_id
         );
     END LOOP;
+
+  
+        -- Inserir usuário
+        INSERT INTO usuarios (id, email, password, name, "is_admin", "is_ativo", "data_criacao", "data_atualizacao")
+        VALUES (
+            gen_random_uuid(),
+            'joao@teste.com',
+            senha_hash,
+            'João da Silva',
+            false,
+            true,
+            CURRENT_TIMESTAMP,
+            CURRENT_TIMESTAMP
+        ) RETURNING id INTO usuario_id;
+
+        -- Inserir cliente
+        INSERT INTO clientes (
+            "id", "num_cpf", "num_celular", "data_nascimento", "endereco", "numero",
+            "complemento", "bairro", "cidade", "estado", "cep", "is_ativo","usuario_id"
+        ) VALUES (
+            gen_random_uuid(),
+            '17610160750',
+            '11999999999',
+            '1990-01-01',
+            'Rua Teste ',
+            '100',
+            'Apto ',
+            'Centro',
+            'São Paulo',
+            'SP',
+            '01234567',
+            true,
+            usuario_id
+        );
+
+
+        -- Inserir usuário
+        INSERT INTO usuarios (id, email, password, name, "is_admin", "is_ativo", "data_criacao", "data_atualizacao")
+        VALUES (
+            gen_random_uuid(),
+            'marcelo@teste.com',
+            senha_hash,
+            'Marcelo Oliveira',
+            false,
+            true,
+            CURRENT_TIMESTAMP,
+            CURRENT_TIMESTAMP
+        ) RETURNING id INTO usuario_id;
+
+        -- Inserir cliente
+        INSERT INTO clientes (
+            "id", "num_cpf", "num_celular", "data_nascimento", "endereco", "numero",
+            "complemento", "bairro", "cidade", "estado", "cep", "is_ativo","usuario_id"
+        ) VALUES (
+            gen_random_uuid(),
+            '19143545750',
+            '12999999999',
+            '1990-01-01',
+            'Rua Teste ',
+            '100',
+            'Apto ',
+            'Centro',
+            'São Paulo',
+            'SP',
+            '01234567',
+            true,
+            usuario_id
+        );
 END $$; 
